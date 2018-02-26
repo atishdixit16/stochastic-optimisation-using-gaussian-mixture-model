@@ -1,5 +1,4 @@
-gmmOpt <- function(func, iter, trials, dim = 1) {
-        lim = c(-5,5)
+gmmOpt <- function(func, iter, trials, dim = 1,  lim ) {
         # samples is a trials-by-dim matrix
         samples <- NULL
         for (i in 1:trials)
