@@ -30,7 +30,8 @@ GaussMixture <- function(size, mus, f, weigthUpdateMethod="flat") {
                 wts <- sum(fmus)/fmus
         if (weigthUpdateMethod=="exp") 
                 wts <- exp(fMin - fmus)
-        wts =  ( wts - min(wts) ) / ( max(wts) - min(wts) ) 
+	if (length(wts)>1)							#to avoid NaN at first iteration
+        	wts =  ( wts - min(wts) ) / ( max(wts) - min(wts) ) 
         n = ncol(mus)
         components <- sample(1:nrow(mus),prob=wts,size=size,replace=TRUE)
         samples <- NULL
