@@ -1,4 +1,4 @@
-gmmOpt <- function(func, iter, trials, dim = 1,  lim ) {
+gmmOpt <- function(func, iter, trials, dim ,  lim , display) {
         # samples is a trials-by-dim matrix
         samples <- NULL
         for (i in 1:trials)
@@ -7,6 +7,19 @@ gmmOpt <- function(func, iter, trials, dim = 1,  lim ) {
         minima = Inf
         epsilon = 1e-5
         for (i in 1:iter) {
+		if (display==TRUE) {
+			if (dim==2) {
+                        	a <- seq(lim[1],lim[2],0.1)
+	                        l <- length(a)
+        	                mat <- matrix(0,l, l)
+                	        for (i in 1:l)
+                        	        for (j in 1:l)
+                                	        mat[i,j] = func(t(matrix(c(a[i],a[j]))))
+	                        image(a,a,mat)
+        	                points(samples[,1],samples[,2],pch='+')
+			}
+                }
+
                 funcN <- func(samples)
                 optN <- samples[ which(funcN==min(funcN))[1] ,  ]
                 mus <- rbind(mus, optN)
