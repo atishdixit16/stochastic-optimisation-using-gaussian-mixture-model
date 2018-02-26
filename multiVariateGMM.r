@@ -20,12 +20,6 @@ gmmOpt <- function(func, iter, trials, dim = 1) {
         return ( samples[ which(funcN==min(funcN))[1] ] )
 }
 
-rastrigin <- function(x) { #x is a trials-by-dim matrix
-        A = 10
-        n = ncol(x)
-        return ( apply( x, 1, function(i)  A*n + sum(i^2 + A*cos(2*pi*i))  )  )
-}
-		  
 		       
 library(MASS)
 GaussMixture <- function(size, mus, f, weigthUpdateMethod="flat") {
