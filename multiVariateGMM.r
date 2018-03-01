@@ -21,7 +21,7 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display) {
                 	        for (i in 1:lx)
                         	        for (j in 1:ly)
                                 	        mat[i,j] = func(t(matrix(c(x[i],y[j]))))
-	                        image(mat)
+	                        image(x,y,mat)
         	                points(samples[,1],samples[,2],pch='+')
 			}
                 }
