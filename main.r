@@ -7,6 +7,6 @@ rastrigin <- function(x) { #x is a trials-by-dim matrix
 }
 
 limMat <- matrix(c(-5,-5,5,5),2,2)
-sol <- gmmOpt(func=rastrigin, 100, 50, dim = 2, lim = limMat, display = TRUE) 
+sol <- gmmOpt(func=rastrigin, 10, 10, dim = 2, lim = limMat, display = TRUE) 
 
 print(sol)
