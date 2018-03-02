@@ -30,12 +30,10 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="fla
                 optN <- samples[ which(funcN==min(funcN))[1] ,  ]
                 mus <- rbind(mus, optN)
                 samples <- GaussMixture( size=trials, mus, f=func, wtUpdateMethod)
-                if ( abs(minima -  min(funcN)) <= epsilon )
-                        break
-                else
+                if ( min(funcN) < minima )
                         minima = min(funcN)
         }
-        return ( samples[ which(funcN==min(funcN))[1] ] )
+        return (minima )
 }
 
 		       
