@@ -1,4 +1,4 @@
-gmmOpt <- function(func, iter, trials, dim ,  lim , display) {
+gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="flat") {
         # samples is a trials-by-dim matrix
         samples <- NULL
         for (i in 1:trials) {
@@ -29,7 +29,7 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display) {
                 funcN <- func(samples)
                 optN <- samples[ which(funcN==min(funcN))[1] ,  ]
                 mus <- rbind(mus, optN)
-                samples <- GaussMixture( size=trials, mus, f=func, weigthUpdateMethod="flat")
+                samples <- GaussMixture( size=trials, mus, f=func, wtUpdateMethod)
                 if ( abs(minima -  min(funcN)) <= epsilon )
                         break
                 else
