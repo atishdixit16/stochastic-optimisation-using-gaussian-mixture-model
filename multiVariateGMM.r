@@ -10,7 +10,6 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="fla
         mus <- NULL
 	sdDia <- (lim[,2]-lim[,1])*(4/6)
 	sd <-  diag(sdDia) # 95% range span for variables
-	print(sd)
         minima = Inf
         epsilon = 1e-5
         for (i in 1:iter) {
@@ -35,6 +34,7 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="fla
                 samples <- GaussMixture( size=trials, mus, stdDev=sd, f=func, wtUpdateMethod)
                 if ( min(funcN) < minima )
                         minima = min(funcN)
+		cat('Iteration No.',i,': ', minima,'\n')
         }
         return (minima)
 }
@@ -46,10 +46,13 @@ GaussMixture <- function(size, mus, stdDev, f, weigthUpdateMethod="flat") {
         fMax <- max(fmus)
         fMin <- min(fmus)
         if (weigthUpdateMethod=="flat")
-                wts <- sum(fmus)/fmus
+		if (length(fmus)>1)
+                	wts <- (fmus - fMax)/(fMin - fMax)
+		else 
+			wts <- 1
         if (weigthUpdateMethod=="exp") 
                 wts <- exp(fMin - fmus)
-        wts =  wts/sum(wts) 
+        wts =  wts/sum(wts)
         n = ncol(mus)
         components <- sample(1:nrow(mus),prob=wts,size=size,replace=TRUE)
         samples <- NULL

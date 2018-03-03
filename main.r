@@ -6,7 +6,9 @@ rastrigin <- function(x) { #x is a trials-by-dim matrix
         return ( apply( x, 1, function(i)  A*n + sum(i^2 - A*cos(2*pi*i))  )  )
 }
 
-limMat <- matrix(c(-5,-5,5,5),2,2)
-sol <- gmmOpt(func=rastrigin, iter=100, trials=1000, dim = 2, lim = limMat, display = TRUE, wtUpdateMethod="exp") 
+
+dimN = 5
+limMat <- matrix(c(-5,5),dimN,2,byrow=T)
+sol <- gmmOpt(func=rastrigin, iter=500, trials=2000, dim = dimN, lim = limMat, display = TRUE, wtUpdateMethod="exp") 
 
 print(sol)
