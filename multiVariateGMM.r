@@ -1,4 +1,4 @@
-gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="flat") {
+gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="flat", StdDevWtUpdate='none') {
         # samples is a trials-by-dim matrix
         samples <- NULL
         for (i in 1:trials) {
@@ -31,7 +31,7 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="fla
                 funcN <- func(samples)
                 optN <- samples[ which(funcN==min(funcN))[1] ,  ]
                 mus <- rbind(mus, optN)
-                samples <- GaussMixture( size=trials, mus, stdDev=sd, f=func, wtUpdateMethod)
+                samples <- GaussMixture( size=trials, mus, stdDev=sd, f=func, wtUpdateMethod, StdDevWtUpdate)
                 if ( min(funcN) < minima )
                         minima = min(funcN)
 		cat('Iteration No.',i,': ', minima,'\n')
@@ -41,7 +41,7 @@ gmmOpt <- function(func, iter, trials, dim ,  lim , display, wtUpdateMethod="fla
 
 		       
 library(MASS)
-GaussMixture <- function(size, mus, stdDev, f, weigthUpdateMethod="flat") {
+GaussMixture <- function(size, mus, stdDev, f, weigthUpdateMethod="flat", StdDevWtUpdate='none') {
         fmus <- f(mus)
         fMax <- max(fmus)
         fMin <- min(fmus)
@@ -56,7 +56,10 @@ GaussMixture <- function(size, mus, stdDev, f, weigthUpdateMethod="flat") {
         n = ncol(mus)
         components <- sample(1:nrow(mus),prob=wts,size=size,replace=TRUE)
         samples <- NULL
-	sdWts <- fmus/sum(fmus)
+	if (StdDevWtUpdate=='flat')
+		sdWts <- fmus/sum(fmus)
+	if (StdDevWtUpdate=='none')
+		sdWts <- rep(1,nrow(mus))
         for (i in 1:size)
                 samples <- rbind( samples, mvrnorm( n=1,mu=mus[components[i], ],Sigma=stdDev*sdWts[components[i]] ) )
         samples
